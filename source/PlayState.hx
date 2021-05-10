@@ -9,21 +9,20 @@ import flixel.util.FlxTimer;
 
 class PlayState extends FlxState
 {
+	// VARIABLE DATA STUFF
 	var plain:Bool = false;
-	var sprite = new FlxSprite();
-	var secondTimer = new FlxTimer();
 	var seconds = 0;
+
+	// COOL CLASSES
+	var secondTimer = new FlxTimer();
 	var timeText = new FlxText(50, 70, 1000, "Time: 0", 16);
+	var dorito = new Dorito(0, 0, true);
 
 	override public function create()
 	{
 		super.create();
 
-		sprite.loadGraphic("assets/images/dorito.png");
-		sprite.screenCenter();
-		sprite.antialiasing = false;
-		sprite.color = 0xFF7F00;
-		add(sprite);
+		add(dorito);
 
 		var button = new FlxButton(50, 50, "Change Type", doritoChange);
 		add(button);
@@ -45,13 +44,13 @@ class PlayState extends FlxState
 		{
 			trace("WHITE");
 			plain = true;
-			sprite.color = 0xFFFFFF;
+			dorito.color = 0xFFFFFF;
 		}
 		else
 		{
 			trace("ORANGE");
 			plain = false;
-			sprite.color = 0xFF7F00;
+			dorito.color = 0xFF7F00;
 		}
 	}
 
