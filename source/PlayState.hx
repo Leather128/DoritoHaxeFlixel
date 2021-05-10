@@ -3,13 +3,17 @@ package;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.text.FlxText;
 import flixel.ui.FlxButton;
-import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
 
 class PlayState extends FlxState
 {
 	var plain:Bool = false;
 	var sprite = new FlxSprite();
+	var secondTimer = new FlxTimer();
+	var seconds = 0;
+	var timeText = new FlxText(50, 70, 1000, "Time: 0", 16);
 
 	override public function create()
 	{
@@ -23,6 +27,16 @@ class PlayState extends FlxState
 
 		var button = new FlxButton(50, 50, "Change Type", doritoChange);
 		add(button);
+
+		add(timeText);
+
+		secondTimer.start(1, onTimer, 0);
+	}
+
+	public function onTimer(Timer:FlxTimer)
+	{
+		seconds += 1;
+		timeText.text = "Time: " + seconds;
 	}
 
 	public function doritoChange()
