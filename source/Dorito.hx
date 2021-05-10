@@ -8,13 +8,19 @@ class Dorito extends FlxSprite
 	{
 		super(x, y);
 
+		// Loads the Dorito graphic (taken from the OG Program)
 		loadGraphic("assets/images/dorito.png");
 
+		// If centered, it centers it.
 		if (centered == true)
 		{
 			screenCenter();
 		}
 
+		// Basic Settings
+		antialiasing = true;
+
+		// Color! Because that sure matters.
 		color = colorVar;
 	}
 }
