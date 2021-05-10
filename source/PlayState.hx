@@ -1,10 +1,14 @@
 package;
 
+import Discord.DiscordClient;
+import discord_rpc.DiscordRpc;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+
+using StringTools;
 
 class PlayState extends FlxState
 {
@@ -54,6 +58,7 @@ class PlayState extends FlxState
 		seconds += 1;
 		timeText.text = "Time: " + seconds;
 		timeText.color = FlxColor.WHITE;
+		DiscordClient.changePresence("Has wasted time for: " + seconds + " seconds.", null, null);
 	}
 
 	public function doritoChange()
