@@ -31,7 +31,6 @@ class PlayState extends FlxState
 		add(timeText);
 
 		secondTimer.start(1, onTimer, 0);
-		// test goes here lol
 	}
 
 	public function onTimer(Timer:FlxTimer)
