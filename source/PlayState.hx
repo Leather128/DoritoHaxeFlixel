@@ -5,6 +5,7 @@ import flixel.FlxG;
 import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import flixel.util.FlxSave;
 import flixel.util.FlxTimer;
 
 using StringTools;
@@ -14,7 +15,7 @@ class PlayState extends FlxState
 	// VARIABLE DATA STUFF
 	var plain:Bool = false;
 
-	var seconds:Float = 0;
+	public static var seconds:Float = 0;
 
 	var doritoName:String = "Original Orange";
 	var doritoType:String = "orange";
@@ -30,9 +31,13 @@ class PlayState extends FlxState
 
 	override public function create()
 	{
+		FlxG.save.bind("DoritoTest");
 		add(ui);
 		super.create();
 		add(timeText);
+
+		seconds = FlxG.save.data.seconds;
+		timeText.text = "Time: " + seconds;
 
 		// Starts the inf timer.
 		secondTimer.start(1, onTimer, 0);
@@ -46,6 +51,9 @@ class PlayState extends FlxState
 		timeText.text = "Time: " + seconds;
 		timeText.color = FlxColor.WHITE;
 		DiscordClient.changePresence("Wasting Time.", seconds + " seconds wasted! Dorito type: " + doritoName, null);
+
+		FlxG.save.data.seconds = seconds;
+		FlxG.save.flush();
 	}
 
 	public function changeType(type:String, seconds:Float, ?typeName:String = "Dorito")
