@@ -14,12 +14,18 @@ class DoritoUI extends FlxTypedGroup<FlxSprite>
 	public var doritos:Array<Dynamic> = [
 		// IT GOES LIKE THIS: [TypeInImageNameLol, ScaleInUI, Antialiasing, ScaleInGame, NameOnDiscordRPC, TimePrice]
 		["orange", 0.1, true, 1, "Original Orange", 5],
-		["plain", 0.1, true, 1, "Plain White", 5],
-		["pixel", 2, false, 19, "Pixelated Orange", 15]
+		["yellow", 0.1, true, 1, "Cool Yellow", 10],
+		["pixel", 2, false, 19, "Pixelated Orange", 15],
+		["spicy", 0.1, true, 1, "Spicy Sweet Fire", 35],
+		["real", 0.04, true, 0.4, "Real Dorito", 60],
+		["logo", 0.1, true, 1, "Dorito Logo", 120],
+		["simplified", 0.08, true, 0.8, "Simple Dorito", 150],
+		["plain", 0.1, true, 1, "Plain White", 1000],
 	];
 	public var doritoSprites:Array<DoritoMenuObject> = [];
+	public var prices:Array<CoolText> = [];
 
-	var doritoFrame = new CoolFrame(45, 100, 8, 15);
+	public var doritoFrame = new CoolFrame(45, 100, 8, 100);
 
 	public function new()
 	{
@@ -39,7 +45,8 @@ class DoritoUI extends FlxTypedGroup<FlxSprite>
 			doritoSprites.insert(doritoSprites.length, newObject);
 			add(newObject);
 
-			var newObjectPriceTag = new FlxText(95, 120 + (30 * i), 1000, "Price: " + doritos[i][5], 8);
+			var newObjectPriceTag = new CoolText(95, 120 + (30 * i), 1000, "Price: " + doritos[i][5], 8);
+			prices.insert(prices.length, newObjectPriceTag);
 			newObjectPriceTag.wordWrap = false;
 			newObjectPriceTag.borderColor = FlxColor.BLACK;
 			newObjectPriceTag.borderStyle = FlxTextBorderStyle.OUTLINE;

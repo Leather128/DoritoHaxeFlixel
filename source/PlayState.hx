@@ -22,7 +22,7 @@ class PlayState extends FlxState
 	// COOL CLASSES
 	var secondTimer = new FlxTimer();
 
-	var timeText = new FlxText(50, 70, 1000, "Time: 0", 16);
+	var timeText = new FlxText(250, 70, 1000, "Time: 0", 16);
 	var dorito = new Dorito(0, 0, true);
 
 	// MENU OBJECTS
@@ -30,14 +30,13 @@ class PlayState extends FlxState
 
 	override public function create()
 	{
+		add(ui);
 		super.create();
 		add(timeText);
-		add(dorito);
 
 		// Starts the inf timer.
 		secondTimer.start(1, onTimer, 0);
-
-		add(ui);
+		add(dorito);
 	}
 
 	public function onTimer(Timer:FlxTimer)
@@ -68,6 +67,23 @@ class PlayState extends FlxState
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
+		for (v in ui.doritoSprites)
+		{
+			if (!((v.y + FlxG.mouse.wheel * 5) > v.defaultY))
+			{
+				v.y += FlxG.mouse.wheel * 5;
+				ui.doritoFrame.y += FlxG.mouse.wheel;
+			}
+		}
+
+		for (v in ui.prices)
+		{
+			if (!((v.y + FlxG.mouse.wheel * 5) > v.defaultY))
+			{
+				v.y += FlxG.mouse.wheel * 5;
+			}
+		}
 
 		// Fullscreen Key Press
 		if (FlxG.keys.justPressed.F11 || (FlxG.keys.justPressed.ALT && FlxG.keys.justPressed.ENTER))
