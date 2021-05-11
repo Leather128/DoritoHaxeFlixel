@@ -1,7 +1,6 @@
 package;
 
 import Discord.DiscordClient;
-import discord_rpc.DiscordRpc;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.text.FlxText;
@@ -14,42 +13,31 @@ class PlayState extends FlxState
 {
 	// VARIABLE DATA STUFF
 	var plain:Bool = false;
-	var seconds = 0;
+
+	var seconds:Float = 0;
+
+	var doritoName:String = "Original Orange";
+	var doritoType:String = "orange";
 
 	// COOL CLASSES
 	var secondTimer = new FlxTimer();
+
 	var timeText = new FlxText(50, 70, 1000, "Time: 0", 16);
 	var dorito = new Dorito(0, 0, true);
-	var newButton = new CoolButton(50, 50, 5, 1);
-	var newButtonText = new FlxText(55, 50, 5 * 16, "Color Change", 8);
+
+	// MENU OBJECTS
+	var ui = new DoritoUI();
 
 	override public function create()
 	{
 		super.create();
-
-		// New Button Setup
-		newButton.color = 0xFFAA00;
-
-		// Custom Function
-		newButton.onClick = function test()
-		{
-			doritoChange();
-		}
-
-		// New Button Text Setup
-		newButtonText.wordWrap = false;
-		newButtonText.borderColor = FlxColor.BLACK;
-		newButtonText.borderStyle = FlxTextBorderStyle.OUTLINE;
-		newButtonText.borderSize = 1;
-
-		// Adds all sprites and stuff into the thing.
-		add(dorito);
-		add(newButton);
-		add(newButtonText);
 		add(timeText);
+		add(dorito);
 
 		// Starts the inf timer.
 		secondTimer.start(1, onTimer, 0);
+
+		add(ui);
 	}
 
 	public function onTimer(Timer:FlxTimer)
@@ -58,34 +46,22 @@ class PlayState extends FlxState
 		seconds += 1;
 		timeText.text = "Time: " + seconds;
 		timeText.color = FlxColor.WHITE;
-		DiscordClient.changePresence("Has wasted time for: " + seconds + " seconds.", null, null);
+		DiscordClient.changePresence("Wasting Time.", seconds + " seconds wasted! Dorito type: " + doritoName, null);
 	}
 
-	public function doritoChange()
+	public function changeType(type:String, seconds:Float, ?typeName:String = "Dorito")
 	{
-		// If you have wasted enough time, you can change colors!
 		if (seconds >= 5)
 		{
-			// Minuses your seconds wasted.
 			seconds -= 5;
 
-			// Updates the text showing seconds.
 			timeText.text = "Time: " + seconds;
 			timeText.color = FlxColor.RED;
 
-			// If it's not plain white, make it plain white, if plain white, make it orange again!
-			if (plain == false)
-			{
-				trace("WHITE");
-				plain = true;
-				dorito.color = 0xFFFFFF;
-			}
-			else
-			{
-				trace("ORANGE");
-				plain = false;
-				dorito.color = 0xFF7F00;
-			}
+			doritoName = typeName;
+			doritoType = type;
+
+			dorito.loadNewDorito(doritoType, 1);
 		}
 	}
 
@@ -96,5 +72,40 @@ class PlayState extends FlxState
 		// Fullscreen Key Press
 		if (FlxG.keys.justPressed.F11 || (FlxG.keys.justPressed.ALT && FlxG.keys.justPressed.ENTER))
 			FlxG.fullscreen = !FlxG.fullscreen;
+
+		if (FlxG.mouse.justPressed)
+		{
+			for (i in 0...ui.doritoSprites.length)
+			{
+				var v = ui.doritoSprites[i];
+
+				// Player Clicked Their Left Mouse Button
+				trace("MOUSE CLICK!");
+
+				if (FlxG.mouse.x >= v.x && FlxG.mouse.x < v.x + (v.width + 1))
+				{
+					// Player's Mouse is in the X Range of the button.
+					trace("MOUSE IS IN THE X BARRIER!");
+
+					if (FlxG.mouse.y >= v.y && FlxG.mouse.y < v.y + (v.height + 1))
+					{
+						// Player's mouse is on the button, so call the click function!
+						trace("MOUSE IS IN THE Y BARRIER!");
+						if (seconds >= ui.doritos[i][5])
+						{
+							seconds -= ui.doritos[i][5];
+
+							timeText.text = "Time: " + seconds;
+							timeText.color = FlxColor.RED;
+
+							doritoName = ui.doritos[i][4];
+							doritoType = v.objType;
+
+							dorito.loadNewDorito(doritoType, ui.doritos[i][3], ui.doritos[i][2]);
+						}
+					}
+				}
+			}
+		}
 	}
 }

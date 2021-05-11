@@ -37,7 +37,7 @@ class CoolButton extends FlxSprite
 				// Player's Mouse is in the X Range of the button.
 				trace("MOUSE IS IN THE X BARRIER!");
 
-				if (FlxG.mouse.y >= y && FlxG.mouse.y < x + (scale.y * 16) + 1)
+				if (FlxG.mouse.y >= y && FlxG.mouse.y < y + (scale.y * 16) + 1)
 				{
 					// Player's mouse is on the button, so call the click function!
 					trace("MOUSE IS IN THE Y BARRIER!");
