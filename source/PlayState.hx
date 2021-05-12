@@ -37,11 +37,15 @@ class PlayState extends FlxState
 		add(timeText);
 
 		seconds = FlxG.save.data.seconds;
+		doritoType = FlxG.save.data.doritoType;
+		doritoName = FlxG.save.data.doritoName;
+
 		timeText.text = "Time: " + seconds;
 
 		// Starts the inf timer.
 		secondTimer.start(1, onTimer, 0);
 		add(dorito);
+		dorito.loadNewDorito(doritoType, 1);
 	}
 
 	public function onTimer(Timer:FlxTimer)
@@ -52,6 +56,7 @@ class PlayState extends FlxState
 		timeText.color = FlxColor.WHITE;
 		DiscordClient.changePresence("Wasting Time.", seconds + " seconds wasted! Dorito type: " + doritoName, null);
 
+		// SAVE DATA
 		FlxG.save.data.seconds = seconds;
 		FlxG.save.flush();
 	}
@@ -126,6 +131,12 @@ class PlayState extends FlxState
 							doritoType = v.objType;
 
 							dorito.loadNewDorito(doritoType, ui.doritos[i][3], ui.doritos[i][2]);
+							DiscordClient.changePresence("Wasting Time.", seconds + " seconds wasted! Dorito type: " + doritoName, null);
+
+							// SAVE DATA
+							FlxG.save.data.doritoType = doritoType;
+							FlxG.save.data.doritoName = doritoName;
+							FlxG.save.flush();
 						}
 					}
 				}
