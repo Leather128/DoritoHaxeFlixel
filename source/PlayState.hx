@@ -5,7 +5,6 @@ import flixel.FlxG;
 import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-import flixel.util.FlxSave;
 import flixel.util.FlxTimer;
 
 using StringTools;
@@ -134,6 +133,7 @@ class PlayState extends FlxState
 							DiscordClient.changePresence("Wasting Time.", seconds + " seconds wasted! Dorito type: " + doritoName, null);
 
 							// SAVE DATA
+							FlxG.save.data.seconds = seconds;
 							FlxG.save.data.doritoType = doritoType;
 							FlxG.save.data.doritoName = doritoName;
 							FlxG.save.flush();
