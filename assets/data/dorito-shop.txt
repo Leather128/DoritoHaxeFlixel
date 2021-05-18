@@ -1,0 +1,8 @@
+orange:0.1:true:1:Original Orange:5
+yellow:0.1:true:1:Cool Yellow:10
+pixel:2:false:19:Pixelated Orange:15
+spicy:0.1:true:1:Spicy Sweet Fire:35
+real:0.04:true:0.4:Real Dorito:60
+logo:0.1:true:1:Dorito Logo:120
+simplified:0.08:true:0.8:Simple Dorito:150
+plain:0.1:true:1:Plain White:1000

@@ -37,8 +37,8 @@ class DiscordClient
 	static function onReady()
 	{
 		DiscordRpc.presence({
-			details: "Just Logged On.",
-			state: "0 seconds wasted! Dorito type: Loading...",
+			details: "Booting up the program.",
+			state: "0 seconds wasted! Dorito type: Booting...",
 			largeImageKey: 'icon',
 			largeImageText: "Dorito.exe"
 		});
