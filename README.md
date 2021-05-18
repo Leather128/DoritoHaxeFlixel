@@ -13,7 +13,10 @@ And because, I don't want people to think it's a virus, I made it Open Source he
 Also yes, this entire thing is a joke :)
 
 ## Building
-Setup HaxeFlixel (I don't think this requires and external libraries.)
+Setup HaxeFlixel
+
+By the way, you need these haxelib modules for this:
+    discord_rpc
 
 Guide for that is here: [HaxeFlixel Setup Documentation](https://haxeflixel.com/documentation/setup/)
 
