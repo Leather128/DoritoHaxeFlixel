@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxState;
+import flixel.addons.ui.FlxUIButton;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 #if windows
@@ -12,7 +13,7 @@ class TitleState extends FlxState
 {
 	public var titleText = new FlxText(0, 0, 0, "Dorito.exe", 48);
 	public var doritoIcon = new Dorito(0, 0, true);
-	public var playButton:CoolButton;
+	public var playButton:FlxUIButton;
 	public var isEscaped = false;
 
 	// Background Image
@@ -35,8 +36,9 @@ class TitleState extends FlxState
 		}
 
 		// Creates the play button
-		playButton = new CoolButton(0, 0, 8, 3);
-		playButton.onClick = fadePlay;
+		playButton = new FlxUIButton(0, 0, "Play", fadePlay, true, false, FlxColor.ORANGE);
+		playButton.setLabelFormat(null, 25, FlxColor.WHITE, FlxTextAlign.CENTER);
+		playButton.resize(200, 55);
 
 		// Centers Title Screen Text
 		titleText.screenCenter();
@@ -50,15 +52,10 @@ class TitleState extends FlxState
 		// Offsets the play button for da logo
 		playButton.y += 150;
 
-		// Creates the play button text (for some reason CoolButton doesn't have text built in :/)
-		// TODO: ADD TEXT TO CoolButton.hx SO I DONT GOTTA DO THIS NONSENSE
-		var playButtonText = new CoolText(playButton.x + (playButton.width / 2) - 23, playButton.y + (playButton.height / 2) - 15, 0, "Play", 16);
-
 		// Adds Stuff to the screen
 		add(titleText);
 		add(doritoIcon);
 		add(playButton);
-		add(playButtonText);
 	}
 
 	function fadePlay()

@@ -1,6 +1,8 @@
 package;
 
 import flixel.FlxSprite;
+import flixel.addons.ui.FlxUIButton;
+import flixel.addons.ui.FlxUITabMenu;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
@@ -12,24 +14,63 @@ class DoritoUI extends FlxTypedGroup<FlxSprite>
 {
 	// DATA ARRAYS
 	var doritoData:Array<String> = Assets.getText("assets/data/dorito-shop.txt").split('\n');
+	var UI_box = new FlxUITabMenu(null, [], false);
 
 	public var doritoShopData:Array<DoritoShopData> = [];
 	public var doritos:Array<Dynamic> = [];
 
+	var doritoPageData:Array<Dynamic> = [];
+
 	public var doritoSprites:Array<DoritoMenuObject> = [];
 	public var prices:Array<CoolText> = [];
 
-	public var doritoFrame = new CoolFrame(45, 100, 7, 100);
+	var backButton:FlxUIButton;
+	var fowardButton:FlxUIButton;
+	var pageText:CoolText;
+
+	var currentPage:Int = 0;
 
 	public function new()
 	{
 		super();
 
-		add(doritoFrame);
+		// SHOP BACKGROUND THING
+		UI_box.resize(112, 300);
+		UI_box.x = 45;
+		UI_box.y = 100;
+		add(UI_box);
+
+		// BACK PAGE BUTTON
+		backButton = new FlxUIButton(50, 380, "<", backPage);
+		backButton.setLabelFormat(null, 8, FlxColor.BLACK, FlxTextAlign.CENTER);
+		backButton.resize(15, 15);
+
+		// FOWARD PAGE BUTTON
+		fowardButton = new FlxUIButton(138, 380, ">", fowardPage);
+		fowardButton.setLabelFormat(null, 8, FlxColor.BLACK, FlxTextAlign.CENTER);
+		fowardButton.resize(15, 15);
+
+		// page text
+		pageText = new CoolText(75, 380, 1000, "Page " + Std.string(currentPage + 1) + "/" + Std.string(doritoPageData.length + 1), 8);
+
+		// setup page text
+		pageText.wordWrap = false;
+		pageText.borderColor = FlxColor.BLACK;
+		pageText.borderStyle = FlxTextBorderStyle.OUTLINE;
+		pageText.borderSize = 1;
+
+		// ADDING PAGE BUTTONS
+		add(backButton);
+		add(fowardButton);
+		add(pageText);
 
 		// loops through the raw text data
-		for (v in doritoData)
+		var currentLoopPage:Array<DoritoShopData> = [];
+
+		for (i in 0...doritoData.length)
 		{
+			var v = doritoData[i];
+
 			// splits it into an array
 			var doritoDataArray = v.split(":");
 
@@ -44,21 +85,53 @@ class DoritoUI extends FlxTypedGroup<FlxSprite>
 			var doritoDataObject = new DoritoShopData(doritoDataArray[0], Std.parseFloat(doritoDataArray[1]), doritoBoolData,
 				Std.parseFloat(doritoDataArray[3]), doritoDataArray[4], Std.parseInt(doritoDataArray[5]));
 
-			// push our new shop data to the bottom of the shop data list!
-			doritoShopData.push(doritoDataObject);
+			// fills up the current loop page until its full, then
+			if (currentLoopPage.length <= 7)
+			{
+				currentLoopPage.push(doritoDataObject);
+
+				if (doritoData[i + 1] == null)
+				{
+					// we know there is no more data then
+					doritoPageData.push(currentLoopPage);
+					currentLoopPage = [];
+				}
+			}
+			else
+			{
+				doritoPageData.push(currentLoopPage);
+				currentLoopPage = [];
+				currentLoopPage.push(doritoDataObject);
+			}
+		}
+
+		updatePageText();
+		updateDoritoPage();
+	}
+
+	function updatePageText()
+	{
+		pageText.text = "Page " + Std.string(currentPage + 1) + "/" + Std.string(doritoPageData.length);
+	}
+
+	function updateDoritoPage()
+	{
+		for (v in doritoSprites)
+		{
+			remove(v);
+		}
+
+		for (v in prices)
+		{
+			remove(v);
 		}
 
 		// MENU STUFF LOL
-		for (i in 0...doritoShopData.length)
+		for (i in 0...doritoPageData[currentPage].length)
 		{
-			// debugging lol
-			trace("----");
-			trace("TYPE: " + doritoShopData[i].valueName);
-			trace("SCALE: " + doritoShopData[i].shopSize);
-			trace("ANTIALISASED: " + doritoShopData[i].antialias);
-
 			// creates the new menu object
-			var newObject = new DoritoMenuObject(70, 120 + (30 * i), doritoShopData[i].shopSize, doritoShopData[i].valueName, doritoShopData[i].antialias);
+			var newObject = new DoritoMenuObject(70, 120 + (30 * i), doritoPageData[currentPage][i].shopSize, doritoPageData[currentPage][i].valueName,
+				doritoPageData[currentPage][i].antialias);
 
 			// pushes it to the end of the sprite group
 			doritoSprites.push(newObject);
@@ -67,7 +140,7 @@ class DoritoUI extends FlxTypedGroup<FlxSprite>
 			add(newObject);
 
 			// price tag for the dorito
-			var newObjectPriceTag = new CoolText(95, 120 + (30 * i), 1000, "Price: " + doritoShopData[i].timePrice, 8);
+			var newObjectPriceTag = new CoolText(95, 120 + (30 * i), 1000, "Price: " + doritoPageData[currentPage][i].timePrice, 8);
 
 			// setup text
 			newObjectPriceTag.wordWrap = false;
@@ -85,13 +158,35 @@ class DoritoUI extends FlxTypedGroup<FlxSprite>
 			// i wish it could just push the DoritoShopData but i dont wanna figure out what an abstract
 			// is rn so i aint doing that
 			doritos.push([
-				doritoShopData[i].valueName,
-				doritoShopData[i].shopSize,
-				doritoShopData[i].antialias,
-				doritoShopData[i].gameSize,
-				doritoShopData[i].realName,
-				doritoShopData[i].timePrice
+				doritoPageData[currentPage][i].valueName,
+				doritoPageData[currentPage][i].shopSize,
+				doritoPageData[currentPage][i].antialias,
+				doritoPageData[currentPage][i].gameSize,
+				doritoPageData[currentPage][i].realName,
+				doritoPageData[currentPage][i].timePrice
 			]);
+		}
+	}
+
+	function backPage()
+	{
+		// code to move back a page in the shop
+		if (currentPage >= 1)
+		{
+			currentPage -= 1;
+			updatePageText();
+			updateDoritoPage();
+		}
+	}
+
+	function fowardPage()
+	{
+		// code to move foward a page in the shop
+		if (currentPage < doritoPageData.length - 1)
+		{
+			currentPage += 1;
+			updatePageText();
+			updateDoritoPage();
 		}
 	}
 }

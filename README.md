@@ -17,6 +17,7 @@ Setup HaxeFlixel
 
 By the way, you need these haxelib modules for this:
     discord_rpc
+    flixel-ui
 
 Guide for that is here: [HaxeFlixel Setup Documentation](https://haxeflixel.com/documentation/setup/)
 

@@ -131,27 +131,6 @@ class PlayState extends FlxState
 	{
 		super.update(elapsed);
 
-		// changes dorito sprites based on the scroll wheel
-		for (v in ui.doritoSprites)
-		{
-			if (!((v.y + FlxG.mouse.wheel * 5) > v.defaultY))
-			{
-				v.y += FlxG.mouse.wheel * 5;
-
-				// also moves the shop frame slower than doritos so MORE ROOM YAY
-				ui.doritoFrame.y += FlxG.mouse.wheel;
-			}
-		}
-
-		// moves price tags based on scroll wheel too (coolness)
-		for (v in ui.prices)
-		{
-			if (!((v.y + FlxG.mouse.wheel * 5) > v.defaultY))
-			{
-				v.y += FlxG.mouse.wheel * 5;
-			}
-		}
-
 		// Fullscreen Key Press
 		if (FlxG.keys.justPressed.F11 || (FlxG.keys.justPressed.ALT && FlxG.keys.justPressed.ENTER))
 			FlxG.fullscreen = !FlxG.fullscreen;
