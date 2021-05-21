@@ -11,7 +11,7 @@ class BackgroundImage extends FlxSprite
 		// Loads the background image
 		loadGraphic("assets/images/ui/background.png");
 
-		// Centers to the screen
+		// Centers to the screen image
 		screenCenter();
 	}
 }
