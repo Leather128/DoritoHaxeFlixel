@@ -22,11 +22,11 @@ class DoritoUI extends FlxTypedGroup<FlxSprite>
 	var doritoPageData:Array<Dynamic> = [];
 
 	public var doritoSprites:Array<DoritoMenuObject> = [];
-	public var prices:Array<CoolText> = [];
+	public var prices:Array<FlxText> = [];
 
 	var backButton:FlxUIButton;
 	var fowardButton:FlxUIButton;
-	var pageText:CoolText;
+	var pageText:FlxText;
 
 	var currentPage:Int = 0;
 
@@ -51,7 +51,7 @@ class DoritoUI extends FlxTypedGroup<FlxSprite>
 		fowardButton.resize(15, 15);
 
 		// page text
-		pageText = new CoolText(75, 380, 1000, "Page " + Std.string(currentPage + 1) + "/" + Std.string(doritoPageData.length + 1), 8);
+		pageText = new FlxText(75, 380, 1000, "Page " + Std.string(currentPage + 1) + "/" + Std.string(doritoPageData.length + 1), 8);
 
 		// setup page text
 		pageText.wordWrap = false;
@@ -140,7 +140,7 @@ class DoritoUI extends FlxTypedGroup<FlxSprite>
 			add(newObject);
 
 			// price tag for the dorito
-			var newObjectPriceTag = new CoolText(95, 120 + (30 * i), 1000, "Price: " + doritoPageData[currentPage][i].timePrice, 8);
+			var newObjectPriceTag = new FlxText(95, 120 + (30 * i), 1000, "Price: " + doritoPageData[currentPage][i].timePrice, 8);
 
 			// setup text
 			newObjectPriceTag.wordWrap = false;
