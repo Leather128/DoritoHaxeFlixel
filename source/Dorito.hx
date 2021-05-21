@@ -1,6 +1,8 @@
 package;
 
 import flixel.FlxSprite;
+import lime.utils.AssetType;
+import lime.utils.Assets;
 
 class Dorito extends FlxSprite
 {
@@ -27,7 +29,7 @@ class Dorito extends FlxSprite
 		doritoType = type;
 
 		// Loads the Dorito graphic
-		loadGraphic("assets/images/doritos/dorito-" + doritoType + ".png");
+		loadGraphic(DoritoFiles.getAssetThing("dorito-" + type, "images/doritos", "png"));
 		scale.set(scaleVar, scaleVar);
 		antialiasing = antiAl;
 		updateHitbox();

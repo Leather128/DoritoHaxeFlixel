@@ -13,7 +13,7 @@ using flixel.util.FlxSpriteUtil;
 class DoritoUI extends FlxTypedGroup<FlxSprite>
 {
 	// DATA ARRAYS
-	var doritoData:Array<String> = Assets.getText("assets/data/dorito-shop.txt").split('\n');
+	var doritoData:Array<String> = Assets.getText(AssetPaths.dorito_shop__txt).split('\n');
 	var UI_box = new FlxUITabMenu(null, [], false);
 
 	public var doritoShopData:Array<DoritoShopData> = [];

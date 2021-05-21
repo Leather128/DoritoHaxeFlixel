@@ -31,6 +31,6 @@ class DoritoMenuObject extends FlxSprite
 	public function loadNewDorito(type:String)
 	{
 		// Loads the Dorito graphic
-		loadGraphic("assets/images/doritos/dorito-" + type + ".png");
+		loadGraphic(DoritoFiles.getAssetThing("dorito-" + type, "images/doritos", "png"));
 	}
 }
