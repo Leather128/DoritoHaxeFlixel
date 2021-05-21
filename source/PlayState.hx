@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxState;
+import flixel.system.FlxSound;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
@@ -17,8 +18,10 @@ class PlayState extends FlxState
 	// VARIABLE DATA STUFF
 	var plain:Bool = false;
 
+	// seconds wasted lol
 	public static var seconds:Float = 0;
 
+	// DORITO INFO
 	var doritoName:String = "Original Orange";
 	var doritoType:String = "orange";
 	var doritoSize:Float = 1.0;
@@ -39,8 +42,14 @@ class PlayState extends FlxState
 	// Background Image
 	var background = new BackgroundImage();
 
+	// buy dorito sound
+	var doritoSound = new FlxSound();
+
 	override public function create()
 	{
+		// loads da sound lol
+		doritoSound = FlxG.sound.load(AssetPaths.buy_dorito__wav);
+
 		// adds the background image
 		add(background);
 
@@ -166,34 +175,41 @@ class PlayState extends FlxState
 						// if you are clicking on da button and have enough seconds wasted then
 						if (seconds >= ui.doritos[i][5])
 						{
-							// subtract your seconds
-							seconds -= ui.doritos[i][5];
+							// if ur not already using this dorito lol
+							if (doritoName != ui.doritos[i][4])
+							{
+								// plays the buy sound
+								doritoSound.play();
 
-							// change the time text to show you've LOST TIME!
-							timeText.text = "Time: " + seconds;
-							timeText.color = FlxColor.RED;
+								// subtract your seconds
+								seconds -= ui.doritos[i][5];
 
-							// sets some values for Discord RPC + actual dorito
-							doritoName = ui.doritos[i][4];
-							doritoType = v.objType;
-							doritoSize = ui.doritos[i][3];
-							doritoAnti = ui.doritos[i][2];
+								// change the time text to show you've LOST TIME!
+								timeText.text = "Time: " + seconds;
+								timeText.color = FlxColor.RED;
 
-							// loads new dorito sprite
-							dorito.loadNewDorito(doritoType, doritoSize, doritoAnti);
+								// sets some values for Discord RPC + actual dorito
+								doritoName = ui.doritos[i][4];
+								doritoType = v.objType;
+								doritoSize = ui.doritos[i][3];
+								doritoAnti = ui.doritos[i][2];
 
-							#if windows
-							// if your on windows (not html5) then change discord rich presence thing lol
-							DiscordClient.changePresence("Wasting Time", seconds + " seconds wasted! Dorito type: " + doritoName, null);
-							#end
+								// loads new dorito sprite
+								dorito.loadNewDorito(doritoType, doritoSize, doritoAnti);
 
-							// SAVE DATA
-							FlxG.save.data.seconds = seconds;
-							FlxG.save.data.doritoType = doritoType;
-							FlxG.save.data.doritoName = doritoName;
-							FlxG.save.data.doritoSize = doritoSize;
-							FlxG.save.data.doritoAnti = doritoAnti;
-							FlxG.save.flush();
+								#if windows
+								// if your on windows (not html5) then change discord rich presence thing lol
+								DiscordClient.changePresence("Wasting Time", seconds + " seconds wasted! Dorito type: " + doritoName, null);
+								#end
+
+								// SAVE DATA
+								FlxG.save.data.seconds = seconds;
+								FlxG.save.data.doritoType = doritoType;
+								FlxG.save.data.doritoName = doritoName;
+								FlxG.save.data.doritoSize = doritoSize;
+								FlxG.save.data.doritoAnti = doritoAnti;
+								FlxG.save.flush();
+							}
 						}
 					}
 				}
