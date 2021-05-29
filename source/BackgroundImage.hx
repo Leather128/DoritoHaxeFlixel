@@ -13,7 +13,5 @@ class BackgroundImage extends FlxSprite
 
 		// Centers to the screen
 		screenCenter();
-
-		// asreeeeeeeeeeee
 	}
 }
