@@ -20,7 +20,7 @@ Background image has been added.
 
 Game Saves all data now.
 
-Press ESCAPE in-game to return to the main menu.
+Press ESCAPE in-game to return to the main menu. 
 
 The Dorito Shop is now run with dorito-shop.txt
 
